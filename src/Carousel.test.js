@@ -62,3 +62,18 @@ it("works when you click on the left arrow", function () {
 		queryByAltText("Photo by Pratik Patel on Unsplash")
 	).not.toBeInTheDocument();
 });
+
+it("hides left arrow when on the first image", () => {
+	const { queryByTestId } = render(<Carousel />);
+	expect(queryByTestId("left-arrow")).not.toBeInTheDocument();
+	expect(queryByTestId("right-arrow")).toBeInTheDocument();
+});
+
+it("hides right arrow when on the last image", () => {
+	const { queryByTestId } = render(<Carousel />);
+	const rightArrow = queryByTestId("right-arrow");
+	fireEvent.click(rightArrow);
+	fireEvent.click(rightArrow);
+	expect(queryByTestId("left-arrow")).toBeInTheDocument();
+	expect(rightArrow).not.toBeInTheDocument();
+});
